@@ -100,7 +100,7 @@ impl UserExt for DBClient {
         if let Some(user_id) = user_id {
             user = sqlx::query_as!(
                 User,
-public_key, created_at, updated_at FROM users WHERE id = $1"#,                r#"SELECT id, name, email, password, 
+                public_key, created_at, updated_at FROM users WHERE id = $1"#, r#"SELECT id, name, email, password,
                 user_id
             ).fetch_optional(&self.pool).await?;
         } else if let Some(name) = name {
