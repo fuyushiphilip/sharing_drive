@@ -97,25 +97,28 @@ impl UserExt for DBClient {
     ) -> Result<Option<User>, sqlx::Error> {
         let mut user: Option<User> = None;
 
-        if let Some(user_id) = user_id {
+       // let mut user = None    ;
+
+        if let Some(uid) = user_id {
             user = sqlx::query_as!(
-                User,
-                public_key, created_at, updated_at FROM users WHERE id = $1"#, r#"SELECT id, name, email, password,
-                user_id
-            ).fetch_optional(&self.pool).await?;
+        User,
+        r#"SELECT id, name, email, password, public_key, created_at, updated_at FROM users WHERE id = $1"#,
+        uid
+    ).fetch_optional(&self.pool).await?;
         } else if let Some(name) = name {
             user = sqlx::query_as!(
-                User,
-                r#"SELECT id, name, email, password, public_key, created_at, updated_at FROM users WHERE name = $1"#,
-                name
-            ).fetch_optional(&self.pool).await?;
+        User,
+        r#"SELECT id, name, email, password, public_key, created_at, updated_at FROM users WHERE name = $1"#,
+        name
+    ).fetch_optional(&self.pool).await?;
         } else if let Some(email) = email {
             user = sqlx::query_as!(
-                User,
-                r#"SELECT id, name, email, password, public_key, created_at, updated_at FROM users WHERE email = $1"#,
-                email
-            ).fetch_optional(&self.pool).await?;
+        User,
+        r#"SELECT id, name, email, password, public_key, created_at, updated_at FROM users WHERE email = $1"#,
+        email
+    ).fetch_optional(&self.pool).await?;
         }
+
 
         Ok(user)
     }
