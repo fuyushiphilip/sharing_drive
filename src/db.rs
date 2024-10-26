@@ -97,7 +97,7 @@ impl UserExt for DBClient {
     ) -> Result<Option<User>, sqlx::Error> {
         let mut user: Option<User> = None;
 
-       // let mut user = None    ;
+       // let mut user = None     ;
 
         if let Some(uid) = user_id {
             user = sqlx::query_as!(
